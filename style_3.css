@@ -1,0 +1,99 @@
+:root {
+    --center-size: 400px;   
+    --spot-scale: 0.68;   
+    --spot-size: calc(var(--center-size) * var(--spot-scale));
+}
+
+body {
+    background-color: #0c000d;
+    color: hsl(0, 0%, 100%);
+    font-family: "Lora", serif; /* gunakan Lora sesuai sebelumnya */
+    text-align: center;
+    min-height: 100vh;          /* memungkinkan halaman bertambah panjang */
+    margin: 0;
+    overflow-y: auto;           /* aktifkan scroll vertikal */
+    position: relative;
+    user-select: none;
+}
+
+/* Heading font (opsional) */
+.topbar a, .photo-box .box-text strong {
+    font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+body::before {
+    content: "";
+    position: fixed;            /* tetap di tengah viewport */
+    top: 50%;
+    left: 50%;
+    width: var(--center-size);
+    height: var(--center-size);
+    background-color: rgba(225,40,246,0.35); /* warna sama seperti style_1 */
+    border-radius: 50%;
+    filter: blur(90px);
+    transform: translate(-50%, -50%);
+    pointer-events: none;       /* tidak mengganggu klik */
+    z-index: -1;                /* di belakang konten */
+    will-change: transform, opacity;
+}
+
+body.fullpage {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* hanya untuk fullpage */
+}
+
+/* container untuk spots */
+.spots-container {
+    position: fixed;            /* tetap di viewport */
+    inset: 0;
+    pointer-events: none;
+    z-index: -2;                /* di belakang center blur */
+}
+
+/* spot kecil */
+.spot {
+    position: absolute;
+    width: var(--spot-size); /* default base */
+    height: var(--spot-size);
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(110,5,136,0.95), rgba(202,6,189,0.6) 60%, rgba(202,6,189,0.0) 100%);
+    filter: blur(100px);
+    opacity: 0;
+    transform: scale(0.5);
+    animation-fill-mode: both;
+    will-change: opacity, transform, left, top;
+    mix-blend-mode: screen; /* opsional: buat efek warna lebih lembut */
+}
+
+/* animasi muncul/hilang */
+@keyframes float-fade {
+    0% {
+        opacity: 0;
+        transform: scale(0.6);
+    }
+    40% {
+        opacity: 0.95;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+}
+
+.box {
+    position: relative;              /* bukan fixed lagi, sehingga halaman bisa di-scroll */
+    margin: 60px auto;               /* center horizontal dan beri jarak vertikal */
+    background-color: rgba(11, 1, 20, 0.548);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.706);
+    padding: 20px;
+    max-width: 800px;
+    width: calc(100% - 40px);        /* responsif pada layar kecil */
+    box-sizing: border-box;
+    z-index: 10;
+    text-align: left;                /* teks rata kiri */
+}
